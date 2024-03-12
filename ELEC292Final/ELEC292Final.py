@@ -2,6 +2,20 @@ import pandas as pd
 import numpy as np
 import h5py
 
+
+# splitting the data into segmented 5-second windows
+def segmentation(signal,
+                 window_size=5,
+                 overlap=0):
+    segments = [] # empty list to hold segmented data
+    for start in range(0, len(signal), window_size-overlap):
+        end = start + window_size
+        segment = signal[start:end]
+        if len(segment) == window_size:
+            segments.append(segment) # adds segment to the list once it is as long as the 5-second interval
+    return segments
+
+
 # reads the CSV files into data frames
 dj_data_walking = pd.read_csv("")
 dj_data_jumping = pd.read_csv("")
@@ -10,10 +24,11 @@ isabel_data_jumping = pd.read_csv("")
 lizzy_data_walking = pd.read_csv("")
 lizzy_data_jumping = pd.read_csv("")
 
-# merged data
+"""
 dj_data_combined = pd.concat([dj_data_jumping, dj_data_walking], axis=0)
 isabel_data_combined = pd.concat([isabel_data_jumping, isabel_data_walking], axis=0)
 lizzy_data_combined = pd.concat([lizzy_data_jumping, lizzy_data_walking], axis=0)
+"""
 
 with h5py.File("data.h5", 'w') as hdf_file:
 
