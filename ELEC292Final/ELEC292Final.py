@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import h5py
+#used to clean up the axis of the ployts that have lots of time values
+import pylab as pl
 
 
 # splitting the data into segmented 5-second windows
@@ -42,3 +44,26 @@ with h5py.File("data.h5", 'w') as hdf_file:
 
     train_ratio = 0.9
     test_ratio = 0.1
+
+#data visualization
+
+#plot x, y and z vs time for each data type
+# 6 plots per person
+
+#dj data walking x plot
+plt.firgure(figszie = (10, 8))
+#by default plot draws lines between the pointss/connects the data
+dj_data_walking.plot(x='Time (s)', y='Linear Acceleration x (m/s^2)')
+plt.title('Acceleration in x')
+#adding labels to the axis
+plt.xlabel("Time (s)")
+plt.ylabel("Linear Acceleration x (m/s^2)")
+#rotatess the labels 90 degrees to make it look better/no overlap
+pl.xticks(rotation = 90)
+#adding a legend
+plt.legend(["X acceleration'])
+#formts the plot (fixes distance between elements and labels)
+plt.tight_layout()
+#function to show the plot
+plt.show()
+
