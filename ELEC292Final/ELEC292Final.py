@@ -3,6 +3,7 @@ import numpy as np
 import h5py
 #used to clean up the axis of the ployts that have lots of time values
 import pylab as pl
+import matplotlib.pyplot as plt
 
 
 # splitting the data into segmented 5-second windows
