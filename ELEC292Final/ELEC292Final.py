@@ -62,9 +62,22 @@ plt.ylabel("Linear Acceleration x (m/s^2)")
 #rotatess the labels 90 degrees to make it look better/no overlap
 pl.xticks(rotation = 90)
 #adding a legend
-plt.legend(["X acceleration'])
+plt.legend(["X acceleration"])
 #formts the plot (fixes distance between elements and labels)
 plt.tight_layout()
 #function to show the plot
 plt.show()
 
+
+# Graphs Data like from lab 5
+window_size = [5]
+signalWithNoise = pd.read_csv() # data without filter
+
+plt.plot(signalWithNoise, label = 'Orignial Data')
+
+for window_size in window_size:
+        filtered_signal = signalWithNoise.rolling(window = window_size).mean()
+        plt.plot(filtered_signal, label=f'Moving Average {window_size}')
+
+plt.legend()
+plt.show()
