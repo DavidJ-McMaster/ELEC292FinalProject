@@ -365,6 +365,27 @@ plt.tight_layout()
 #function to show the plot
 plt.show()
 
+#FEATURE EXTRACTION + MORE VISUALIZATION
+
+#extracting features
+data = dj_data_walking
+#statistical features !! need 3 more feautres
+#creating an empty dataframe
+features = pd.DataFrame(columns=['mean', 'std', 'max', 'kurtosis', 'skew', 'median', 'range'])
+window_size = 125
+features['mean'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['std'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['max'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['kurtosis'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['skew'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['median'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['range'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+
+#Plotting the features extracted
+#Max X accerlation for dj
+
+
+
 # Graphs Data like from lab 5
 window_size = [5]
 signalWithNoise = pd.read_csv() # data without filter
