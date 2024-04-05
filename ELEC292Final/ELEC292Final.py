@@ -5,6 +5,7 @@ import h5py
 import pylab as pl
 import matplotlib.pyplot as plt
 from scipy.stats import mode, kurtosis, skew, t
+from sklearn import preprocessing
 
 
 # splitting the data into segmented 5-second windows
@@ -448,6 +449,14 @@ features['kurtosis'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['skew'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['median'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['range'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+
+# Normalization
+def normalize(data):
+    sc = preprocessing.StandardScaler()
+    data = sc.fit(data)
+    return data
+
+# call this when feature extraction is done
 
 #Plotting the features extracted
 #Max X accerlation for dj
