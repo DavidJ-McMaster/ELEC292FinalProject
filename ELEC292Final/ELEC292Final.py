@@ -382,10 +382,11 @@ plt.tight_layout()
 #function to show the plot
 plt.show()
 
+
 #FEATURE EXTRACTION + MORE VISUALIZATION
 
 def extract_features(segment):
-        features = {}
+        features = pd.DataFrame(columns=['maximum', 'minimum', 'range', 'mean', 'median', 'mode', 'variance', 'skewness','kurtosis','sumOfInterval','confidence_interval'])
         features['maximum'] = np.max(segment)
         features['minimum'] = np.min(segment)
         features['range']= features['maximum'] - features['minimum']
@@ -419,7 +420,78 @@ def extract_features_from_dataset(dataset, window_size):
     return features_list
 
 
+#calling feature extraction for each set of data
+window_size = 5
+features_to_plot = ['maximum', 'minimum', 'range', 'mean', 'median', 'mode', 'variance']
+number_features = 7
+#dj features
+dj_walking_features = extract_features_from_dataset(dj_data_walking, window_size)
+dj_jumping_features = extract_features_from_dataset(dj_data_jumping, window_size)
+
+#plotting correlation between extracted features walking vs jumping
+
+plt.figure(figsize=(15, 10))
+
+for i, featureA in enumerate(features_to_plot):
+     for j, featureB in enumerate(features_to_plot):
+          #creating the number of subplots and selecting the subplot to put the current data in
+          plt.subplot(number_features, number_features, i)
+          plt.scatter(dj_walking_features[featureA], dj_walking_features[featureB], label = 'Walking', colour='blue')
+          plt.scatter(dj_jumping_features[featureA], dj_jumping_features[featureB], label = 'Jumping', colour='red')
+          plt.xlabel(featureA)
+          plt.ylabel(featureB)
+
+plt.title("DJ features correlation")
+plt.tight_layout()
+plt.legend()
+plt.show()
+
+#lizzy features
+lizzy_walking_features = extract_features_from_dataset(lizzy_data_walking, window_size)
+lizzy_jumping_features = extract_features_from_dataset(lizzy_data_jumping, window_size)
+
+#plotting correlation between extracted features walking vs jumping
+
+plt.figure(figsize=(15, 10))
+
+for i, featureA in enumerate(features_to_plot):
+     for j, featureB in enumerate(features_to_plot):
+          #creating the number of subplots and selecting the subplot to put the current data in
+          plt.subplot(number_features, number_features, i)
+          plt.scatter(lizzy_walking_features[featureA], lizzy_walking_features[featureB], label = 'Walking', colour='blue')
+          plt.scatter(lizzy_jumping_features[featureA], lizzy_jumping_features[featureB], label = 'Jumping', colour='red')
+          plt.xlabel(featureA)
+          plt.ylabel(featureB)
+
+plt.title("Lizzy features correlation")
+plt.tight_layout()
+plt.legend()
+plt.show()
+
+#Isabel features
+isabel_walking_features = extract_features_from_dataset(isabel_data_walking, window_size)
+isabel_jumping_features = extract_features_from_dataset(isabel_data_jumping, window_size)
+
+#plotting correlation between extracted features walking vs jumping
+
+plt.figure(figsize=(15, 10))
+
+for i, featureA in enumerate(features_to_plot):
+     for j, featureB in enumerate(features_to_plot):
+          #creating the number of subplots and selecting the subplot to put the current data in
+          plt.subplot(number_features, number_features, i)
+          plt.scatter(isabel_walking_features[featureA], isabel_walking_features[featureB], label = 'Walking', colour='blue')
+          plt.scatter(isabel_jumping_features[featureA], isabel_jumping_features[featureB], label = 'Jumping', colour='red')
+          plt.xlabel(featureA)
+          plt.ylabel(featureB)
+
+plt.title("Isabel features correlation")
+plt.tight_layout()
+plt.legend()
+plt.show()
+
 # Example of how it can be used
+
 '''
 # # Example usage:
 # Assuming 'data' is your signal data in a pandas DataFrame
@@ -435,22 +507,20 @@ features_list = extract_features_from_dataset(data['Linear Acceleration x (m/s^2
 
 '''
 
-#extracting features
+""" #extracting features
 data = dj_data_walking
 #statistical features !! need 3 more feautres
 #creating an empty dataframe
 features = pd.DataFrame(columns=['mean', 'std', 'max', 'kurtosis', 'skew', 'median', 'range'])
 window_size = 125
 features['mean'] = data.iloc[74829, -1].rolling(window=window_size).mean()
-features['std'] = data.iloc[74829, -1].rolling(window=window_size).mean()
+features['std'] = data.iloc[74829, -1].rolling(window=window_size).m()
 features['max'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['kurtosis'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['skew'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['median'] = data.iloc[74829, -1].rolling(window=window_size).mean()
 features['range'] = data.iloc[74829, -1].rolling(window=window_size).mean()
-
-#Plotting the features extracted
-#Max X accerlation for dj
+ """
 
 
 
