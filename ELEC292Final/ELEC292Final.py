@@ -28,7 +28,7 @@ dj_jumping = "dj_JumpingRawData.csv"
 isabel_walking = ["Isabel_Walking_RawData.csv", "Isabel_Walking_RawData2.csv"]
 isabel_w_dataframe = [pd.read_csv(file) for file in isabel_walking]
 
-isabel_jumping = ["Isabel_Jumping_RawData.csv", "Isabel_Jumping_RawData2.csv", "Isabel_Jumping_RawData3.csv", "Isabel_Jumping_RawData4.csv"]
+isabel_jumping = ["Isabel_Jumping_RawData.csv", "Isabel_Jumping_RawData_2.csv", "Isabel_Jumping_RawData_3.csv", "Isabel_Jumping_RawData4.csv"]
 isabel_j_dataframe = [pd.read_csv(file) for file in isabel_jumping]
 
 lizzy_walking = "lizzy_WalkingRawData.csv"
