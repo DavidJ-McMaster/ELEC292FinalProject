@@ -25,6 +25,21 @@ def process_file():
         # code that was done in the project
         # x-axis???
 
+        fig, plots = plt.subplots(figsize=(10,8))
+    
+        df.plot(x='Time (s)', y= ['Linear Acceleration x (m/s^2)', 'Linear Acceleration y (m/s^2)','Linear Acceleration z (m/s^2)'], ax=plots)
+
+        plots.set_title('Acceleration in XYZ axes')
+        plots.set_xlabel("Time (s)")
+        plots.set_ylabel("Linear Acceleration (m/s^2)")
+
+        plt.xticks(rotation=90)
+
+        plots.legend(["X acceleration", "Y Acceleration", "Z accleration"])
+        plt.tight_layout()
+        plt.show()
+
+
         plt.figure(figsize=(10, 8))
         # by default plot draws lines between the pointss/connects the data
         df.plot(x='Time (s)', y='Linear Acceleration x (m/s^2)')
