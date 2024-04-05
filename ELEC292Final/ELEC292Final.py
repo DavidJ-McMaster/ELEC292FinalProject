@@ -4,6 +4,7 @@ import h5py
 #used to clean up the axis of the ployts that have lots of time values
 import pylab as pl
 import matplotlib.pyplot as plt
+from scipy.stats import mode, kurtosis, skew, t
 
 
 # splitting the data into segmented 5-second windows
@@ -366,6 +367,57 @@ plt.tight_layout()
 plt.show()
 
 #FEATURE EXTRACTION + MORE VISUALIZATION
+
+def extract_features(segment):
+        features = {}
+        features['maximum'] = np.max(segment)
+        features['minimum'] = np.min(segment)
+        features['range']= features['maximum'] - features['minimum']
+        features['mean'] = np.mean(segment)
+        features['median'] = np.median(segment)
+        features['mode'] = mode(segment)[0][0]
+        features['variance'] = np.var(segment)
+        features['skewness'] = skew(segment)
+        features['kurtosis'] = kurtosis(segment)
+        features['sumOfInterval'] = np.sum(segment)
+
+        confidence_level = 0.95
+        n = len(segment)
+        degreeOfFreedom = n - 1
+        t_critical = t.ppf((1+confidence_level) / 2, degreeOfFreedom)
+        standard_error = np.std(segment)/ np.sqrt(n)
+        margin_of_error = t_critical * standard_error
+        features['confidence_interval'] = (features['mean'] - margin_of_error, features['mean'] + margin_of_error)
+
+
+        return features
+
+def extract_features_from_dataset(dataset, window_size):
+    features_list = []
+    for start in range(0, len(dataset), window_size):
+        end = start + window_size
+        segment = dataset[start:end]
+        if len(segment) == window_size:
+            features = extract_features(segment)
+            features_list.append(features)
+    return features_list
+
+
+# Example of how it can be used
+'''
+# # Example usage:
+# Assuming 'data' is your signal data in a pandas DataFrame
+# and 'window_size' is the size of the time window (5 seconds)
+data = pd.read_csv("your_data.csv")
+window_size = 100  # Assuming 100 data points represent 5 seconds
+
+# Extracting features from the entire dataset
+features_list = extract_features_from_dataset(data['Linear Acceleration x (m/s^2)'], window_size)
+
+# Printing extracted features for the first segment as an example
+# print(features_list[0])
+
+'''
 
 #extracting features
 data = dj_data_walking
