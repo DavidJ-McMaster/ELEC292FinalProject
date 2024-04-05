@@ -44,24 +44,24 @@ isabel_data_jumping = pd.concat(isabel_j_dataframe, axis=0, ignore_index=True)
 lizzy_data_walking = pd.read_csv(lizzy_walking)
 lizzy_data_jumping = pd.read_csv(lizzy_jumping)
 
-"""
-dj_data_combined = pd.concat([dj_data_jumping, dj_data_walking], axis=0)
-isabel_data_combined = pd.concat([isabel_data_jumping, isabel_data_walking], axis=0)
-lizzy_data_combined = pd.concat([lizzy_data_jumping, lizzy_data_walking], axis=0)
-"""
 
 with h5py.File("data.h5", 'w') as hdf_file:
 
-    Member1 = hdf_file.create_group("Member1")
-    Member2 = hdf_file.create_group("Member2")
-    Member3 = hdf_file.create_group("Member3")
+    Member1 = hdf_file.create_group("Member1") # dj
+    Member2 = hdf_file.create_group("Member2") # isabel
+    Member3 = hdf_file.create_group("Member3") # lizzy
 
-    Member1.create_dataset("data", data=dj_data_combined)
-    Member2.create_dataset("data", data=isabel_data_combined)
-    Member3.create_dataset("data", data=lizzy_data_combined)
+    Member1.create_dataset("walking", data=dj_data_walking)
+    Member1.create_dataset("jumping", data=dj_data_jumping)
 
-    train_ratio = 0.9
-    test_ratio = 0.1
+    Member2.create_dataset("walking", data=isabel_data_walking)
+    Member2.create_dataset("jumping", data=isabel_data_jumping)
+
+    Member3.create_dataset("walking", data=lizzy_data_walking)
+    Member3.create_dataset("jumping", data=lizzy_data_jumping)
+
+    hdf_file.attrs['train_ratio'] = 0.9
+    hdf_file.attrs['test_ratio'] = 0.1
 
 #data visualization
 
