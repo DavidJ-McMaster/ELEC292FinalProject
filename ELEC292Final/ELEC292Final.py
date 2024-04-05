@@ -62,7 +62,7 @@ plt.ylabel("Linear Acceleration x (m/s^2)")
 #rotatess the labels 90 degrees to make it look better/no overlap
 pl.xticks(rotation = 90)
 #adding a legend
-plt.legend(["X acceleration'])
+plt.legend(["X acceleration"])
 #formts the plot (fixes distance between elements and labels)
 plt.tight_layout()
 #function to show the plot
