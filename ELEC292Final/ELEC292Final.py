@@ -5,6 +5,7 @@ import h5py
 import pylab as pl
 import matplotlib.pyplot as plt
 from scipy.stats import mode, kurtosis, skew, t
+from sklearn import preprocessing
 
 
 # splitting the data into segmented 5-second windows
