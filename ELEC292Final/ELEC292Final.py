@@ -17,16 +17,32 @@ def segmentation(signal,
         segment = signal[start:end]
         if len(segment) == window_size:
             segments.append(segment) # adds segment to the list once it is as long as the 5-second interval
-    return segments
+    return segments 
+
+# set csv into variables 
+
+dj_walking = "dj_WalkingRawData.csv"
+dj_jumping = "dj_JumpingRawData.csv"
+
+isabel_walking = ["Isabel_Walking_RawData.csv", "Isabel_Walking_RawData2.csv"]
+isabel_w_dataframe = [pd.read_csv(file) for file in isabel_walking]
+
+isabel_jumping = ["Isabel_Jumping_RawData.csv", "Isabel_Jumping_RawData2.csv", "Isabel_Jumping_RawData3.csv", "Isabel_Jumping_RawData4.csv"]
+isabel_j_dataframe = [pd.read_csv(file) for file in isabel_jumping]
+
+lizzy_walking = "lizzy_WalkingRawData.csv"
+lizzy_jumping = "lizzy_jumpingRawData.csv"
 
 
 # reads the CSV files into data frames
-dj_data_walking = pd.read_csv("")
-dj_data_jumping = pd.read_csv("")
-isabel_data_walking = pd.read_csv("")
-isabel_data_jumping = pd.read_csv("")
-lizzy_data_walking = pd.read_csv("")
-lizzy_data_jumping = pd.read_csv("")
+dj_data_walking = pd.read_csv(dj_walking)
+dj_data_jumping = pd.read_csv(dj_jumping)
+
+isabel_data_walking = pd.concat(isabel_w_dataframe, axis=0, ignore_index=True)
+isabel_data_jumping = pd.concat(isabel_j_dataframe, axis=0, ignore_index=True)
+
+lizzy_data_walking = pd.read_csv(lizzy_walking)
+lizzy_data_jumping = pd.read_csv(lizzy_jumping)
 
 """
 dj_data_combined = pd.concat([dj_data_jumping, dj_data_walking], axis=0)
