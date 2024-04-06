@@ -530,6 +530,13 @@ data.hist(ax=ax.flatten()[0:9])
 fig.tight_layout()
 plt.show()
 
+def normalize(data):
+    sc = preprocessing.StandardScaler()
+    data = sc.fit(data)
+    return data
+
+
+
 """ 
 plt.figure(figsize=(15, 10))
 
