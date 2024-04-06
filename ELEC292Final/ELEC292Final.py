@@ -6,6 +6,8 @@ import pylab as pl
 import matplotlib.pyplot as plt
 from scipy.stats import mode, kurtosis, skew, t
 from sklearn import preprocessing
+from sklean.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
 
 # splitting the data into segmented 5-second windows
@@ -537,3 +539,48 @@ for window_size in window_size:
 
 plt.legend()
 plt.show()
+
+#classify
+def preprocess_data(member):
+    walking_data = member['walking'][:]
+    jumping_data = member['jumping'][:]
+    walking_labels = np.zeros(len(walking_data))  # 0 represents 'walking'
+    jumping_labels = np.ones(len(jumping_data))  # 1 represents 'jumping'
+
+    # Combine walking and jumping data and labels
+    X = np.vstack((walking_data, jumping_data))
+    y = np.hstack((walking_labels, jumping_labels))
+
+    # Split the data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, shuffle=True, random_state=0)
+
+    return X_train, X_test, y_train, y_test
+
+
+def train_logistic_regression(X_train, y_train):
+    # Initialize and train the logistic regression model
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+
+    return model
+
+
+def evaluate_model(model, X_test, y_test):
+    # Apply the trained model on the test set
+    y_pred = model.predict(X_test)
+
+    # Calculate accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+
+    return accuracy
+
+
+# Preprocess data and split into training and testing sets
+X_train, X_test, y_train, y_test = preprocess_data(Member1)
+
+# Train logistic regression model
+model = train_logistic_regression(X_train, y_train)
+
+# Evaluate the model
+accuracy = evaluate_model(model, X_test, y_test)
+print("Accuracy:", accuracy)
