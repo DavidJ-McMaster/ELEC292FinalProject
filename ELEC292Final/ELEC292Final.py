@@ -8,6 +8,8 @@ from scipy.stats import mode, kurtosis, skew, t
 from sklearn import preprocessing
 from sklean.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
 
 
 # splitting the data into segmented 5-second windows
