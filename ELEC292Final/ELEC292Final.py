@@ -6,8 +6,6 @@ import pylab as pl
 import matplotlib.pyplot as plt
 from scipy.stats import mode, kurtosis, skew, t
 from sklearn import preprocessing
-from sklean.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 
 
 # splitting the data into segmented 5-second windows
@@ -27,18 +25,14 @@ def segmentation(signal,
 dj_walking = "dj_WalkingRawData.csv"
 dj_jumping = "dj_JumpingRawData.csv"
 
-isabel_walking = ["Isabel_Walking_RawData.csv", 
-                  "Isabel_Walking_RawData2.csv" ]
+isabel_walking = ["Isabel_Walking_RawData.csv", "Isabel_Walking_RawData2.csv"]
 isabel_w_dataframe = [pd.read_csv(file) for file in isabel_walking]
 
-isabel_jumping = ["Isabel_Jumping_RawData.csv", 
-                  "Isabel_Jumping_RawData_2.csv", 
-                  "Isabel_Jumping_RawData_3.csv", 
-                  "Isabel_Jumping_RawData4.csv" ]
+isabel_jumping = ["Isabel_Jumping_Raw Data.csv", "Isabel_Jumping_RawData2.csv", "Isabel_Jumping_RawData3.csv", "Isabel_Jumping_RawData4.csv"]
 isabel_j_dataframe = [pd.read_csv(file) for file in isabel_jumping]
 
-lizzy_walking = "lizzy_NewWalkingData.csv"
-lizzy_jumping = "lizzy_NewJumpingData.csv"
+lizzy_walking = "lizzy_WalkingRawData.csv"
+lizzy_jumping = "lizzy_jumpingRawData.csv"
 
 
 # reads the CSV files into data frames
@@ -429,15 +423,112 @@ def extract_features_from_dataset(dataset, window_size):
 
 #calling feature extraction for each set of data
 window_size = 5
-features_to_plot = ['maximum', 'minimum', 'range', 'mean', 'median', 'mode', 'variance']
-number_features = 7
-#dj features
+
+#DJ features
 dj_walking_features = extract_features_from_dataset(dj_data_walking, window_size)
 dj_jumping_features = extract_features_from_dataset(dj_data_jumping, window_size)
+#Lizzy features
+lizzy_walking_features = extract_features_from_dataset(lizzy_data_walking, window_size)
+lizzy_jumping_features = extract_features_from_dataset(lizzy_data_jumping, window_size)
+#Isabel features
+isabel_walking_features = extract_features_from_dataset(isabel_data_walking, window_size)
+isabel_jumping_features = extract_features_from_dataset(isabel_data_jumping, window_size)
 
-#plotting correlation between extracted features walking vs jumping
+#turning the extracted features into dataframes
+dj_walking_df = pd.concat(dj_walking_features)
+dj_jumping_df = pd.concat(dj_jumping_features)
 
+lizzy_walking_df = pd.concat(lizzy_walking_features)
+lizzy_jumping_df = pd.concat(lizzy_jumping_features)
+
+isabel_walking_df = pd.concat(isabel_walking_features)
+isabel_jumping_df = pd.concat(isabel_jumping_features)
+
+#Plotting the mean acceleration for walking vs jumping for each person
+plt.figure(15, 8)
+plt.subplot(3, 1, 1)
+plt.xlabel("Time (s)")
+plt.ylabel("mean acceleration DJ")
+plt.plot(x='Time (s)', y= dj_walking_df['mean'], label = "walking")
+plt.plot(x= 'Time (s)', y=dj_jumping_df['mean'], label = "jumping")
+
+plt.figure(15, 8)
+plt.subplot(3, 1, 2)
+plt.xlabel("Time (s)")
+plt.ylabel("mean acceleration Lizzy")
+plt.plot(x='Time (s)', y=lizzy_walking_df['mean'], label = "walking")
+plt.plot(x='Time (s)', y=lizzy_jumping_df['mean'], label = "jumping")
+
+plt.figure(15, 8)
+plt.subplot(3, 1, 3)
+plt.xlabel("Time (s)")
+plt.ylabel("mean acceleration Isabel")
+plt.plot(x='Time (s)', y=isabel_walking_df['mean'], label = "walking")
+plt.plot(x='Time (s)', y=isabel_jumping_df['mean'], label = "jumping")
+
+plt.tight_layout()
+plt.show()
+
+#creating histograms for each feature of jumping vs walking with points for each 5 second interval
+#combining the walking and jumping data into one dataframe for each person
+
+#DJ data comparison walking
+data = dj_walking_df.iloc[:, 0:9]
+labels = dj_walking_df.iloc[:, 9]
+print(labels)
+fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
+data.hist(ax=ax.flatten()[0:9])
+fig.tight_layout()
+plt.show()
+
+#DJ data comparison jumping
+data = dj_jumping_df.iloc[:, 0:9]
+labels = dj_jumping_df.iloc[:, 9]
+print(labels)
+fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
+data.hist(ax=ax.flatten()[0:9])
+fig.tight_layout()
+plt.show()
+
+#Lizzy data comparison walking
+data = lizzy_walking_df.iloc[:, 0:9]
+labels = lizzy_walking_df.iloc[:, 9]
+print(labels)
+fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
+data.hist(ax=ax.flatten()[0:9])
+fig.tight_layout()
+plt.show()
+
+#Lizzy data comparison jumping
+data = lizzy_jumping_df.iloc[:, 0:9]
+labels = lizzy_jumping_df.iloc[:, 9]
+print(labels)
+fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
+data.hist(ax=ax.flatten()[0:9])
+fig.tight_layout()
+plt.show()
+
+#Isabel data comparison walking
+data = isabel_walking_df.iloc[:, 0:9]
+labels = isabel_walking_df.iloc[:, 9]
+print(labels)
+fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
+data.hist(ax=ax.flatten()[0:9])
+fig.tight_layout()
+plt.show()
+
+#Isabel data comparison jumping
+data = isabel_jumping_df.iloc[:, 0:9]
+labels = isabel_jumping_df.iloc[:, 9]
+print(labels)
+fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
+data.hist(ax=ax.flatten()[0:9])
+fig.tight_layout()
+plt.show()
+
+""" 
 plt.figure(figsize=(15, 10))
+
 
 for i, featureA in enumerate(features_to_plot):
      for j, featureB in enumerate(features_to_plot):
@@ -495,7 +586,7 @@ for i, featureA in enumerate(features_to_plot):
 plt.title("Isabel features correlation")
 plt.tight_layout()
 plt.legend()
-plt.show()
+plt.show() """
 
 # Example of how it can be used
 
@@ -543,48 +634,3 @@ for window_size in window_size:
 
 plt.legend()
 plt.show()
-
-#classify
-def preprocess_data(member):
-    walking_data = member['walking'][:]
-    jumping_data = member['jumping'][:]
-    walking_labels = np.zeros(len(walking_data))  # 0 represents 'walking'
-    jumping_labels = np.ones(len(jumping_data))  # 1 represents 'jumping'
-
-    # Combine walking and jumping data and labels
-    X = np.vstack((walking_data, jumping_data))
-    y = np.hstack((walking_labels, jumping_labels))
-
-    # Split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, shuffle=True, random_state=0)
-
-    return X_train, X_test, y_train, y_test
-
-
-def train_logistic_regression(X_train, y_train):
-    # Initialize and train the logistic regression model
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
-
-    return model
-
-
-def evaluate_model(model, X_test, y_test):
-    # Apply the trained model on the test set
-    y_pred = model.predict(X_test)
-
-    # Calculate accuracy
-    accuracy = accuracy_score(y_test, y_pred)
-
-    return accuracy
-
-
-# Preprocess data and split into training and testing sets
-X_train, X_test, y_train, y_test = preprocess_data(Member1)
-
-# Train logistic regression model
-model = train_logistic_regression(X_train, y_train)
-
-# Evaluate the model
-accuracy = evaluate_model(model, X_test, y_test)
-print("Accuracy:", accuracy)
