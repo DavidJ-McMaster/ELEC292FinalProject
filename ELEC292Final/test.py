@@ -6,12 +6,14 @@ import matplotlib.pyplot as plt
 # Function to segment data into 5-second windows
 def segment_into_windows(df, window_size=5):
     windows = []
-    total_duration = df['Time (s)'].max()  # Get the maximum timestamp
+    start_time = df['Time (s)'].min()  # Start time of the first window
+    end_time = start_time + window_size
     
-    for start_time in range(0, total_duration, window_size):
-        end_time = start_time + window_size
+    while end_time <= df['Time (s)'].max():
         window_data = df[(df['Time (s)'] >= start_time) & (df['Time (s)'] < end_time)]
         windows.append(window_data)
+        start_time = end_time
+        end_time += window_size
     
     return windows
 
@@ -51,10 +53,15 @@ with h5py.File("data.h5", 'w') as hdf_file:
 
 # Visualize the segmented data
 plt.figure(figsize=(10, 6))
-for window_data in train_windows:
-    plt.scatter(window_data['Time (s)'], window_data['Linear Acceleration x (m/s^2)'], label='Train', alpha=0.5)
-for window_data in test_windows:
-    plt.scatter(window_data['Time (s)'], window_data['Linear Acceleration x (m/s^2)'], label='Test', alpha=0.5)
+
+# Plot train data
+train_data = pd.concat(train_windows)
+plt.scatter(train_data['Time (s)'], train_data['Linear Acceleration x (m/s^2)'], label='Train', alpha=0.5)
+
+# Plot test data
+test_data = pd.concat(test_windows)
+plt.scatter(test_data['Time (s)'], test_data['Linear Acceleration x (m/s^2)'], label='Test', alpha=0.5)
+
 plt.xlabel('Time (s)')
 plt.ylabel('Linear Acceleration x (m/s^2)')
 plt.title('Segmented Data Scatter Plot')
