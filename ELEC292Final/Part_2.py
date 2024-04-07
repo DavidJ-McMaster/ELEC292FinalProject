@@ -12,28 +12,141 @@ from Part_1 import *
 
 #visualization
 
-'''
-# MIGHT BE A GOOD ALTERNATIVE
+# Create separate plots for walking and jumping along the x, y, and z axes
+# Create separate plots for walking and jumping along the x, y, and z axes
+plt.figure(figsize=(16, 10))
 
-# WALKING X PLOTS
-# dj data walking x plot
-plt.figure(figsize=(10, 8))
+# DJ walking plots
+plt.subplot(2, 3, 1)
+plt.plot(dj_walking_sorted['Time (s)'], dj_walking_sorted['Linear Acceleration x (m/s^2)'])
+plt.title('Walking Linear Acceleration x - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration x (m/s^2)')
 
-# Sort the DataFrame by 'Time (s)' if it's not already sorted
-dj_walking_df_sorted = dj_walking_df.sort_values(by='Time (s)')
+plt.subplot(2, 3, 2)
+plt.plot(dj_walking_sorted['Time (s)'], dj_walking_sorted['Linear Acceleration y (m/s^2)'])
+plt.title('Walking Linear Acceleration y - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration y (m/s^2)')
 
-# Plot the data as a line graph
-plt.plot(dj_walking_df_sorted['Time (s)'], dj_walking_df_sorted['Linear Acceleration x (m/s^2)'])
+plt.subplot(2, 3, 3)
+plt.plot(dj_walking_sorted['Time (s)'], dj_walking_sorted['Linear Acceleration z (m/s^2)'])
+plt.title('Walking Linear Acceleration z - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration z (m/s^2)')
 
-plt.title('DJ Acceleration in x')
-plt.xlabel("Time (s)")
-plt.ylabel("Linear Acceleration x (m/s^2)")
-plt.xticks(rotation=90)
-plt.legend(["X acceleration"])
+# DJ jumping plots
+plt.subplot(2, 3, 4)
+plt.plot(dj_jumping_sorted['Time (s)'], dj_jumping_sorted['Linear Acceleration x (m/s^2)'])
+plt.title('Jumping Linear Acceleration x - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration x (m/s^2)')
+
+plt.subplot(2, 3, 5)
+plt.plot(dj_jumping_sorted['Time (s)'], dj_jumping_sorted['Linear Acceleration y (m/s^2)'])
+plt.title('Jumping Linear Acceleration y - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration y (m/s^2)')
+
+plt.subplot(2, 3, 6)
+plt.plot(dj_jumping_sorted['Time (s)'], dj_jumping_sorted['Linear Acceleration z (m/s^2)'])
+plt.title('Jumping Linear Acceleration z - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration z (m/s^2)')
+
+plt.tight_layout()
+plt.show()
+
+# isabel
+
+plt.figure(figsize=(16, 10))
+
+# Isabel walking plots
+plt.subplot(2, 3, 1)
+plt.plot(isabel_walking_sorted['Time (s)'], isabel_walking_sorted['Linear Acceleration x (m/s^2)'])
+plt.title('Walking Linear Acceleration x - Isabel')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration x (m/s^2)')
+
+plt.subplot(2, 3, 2)
+plt.plot(isabel_walking_sorted['Time (s)'], isabel_walking_sorted['Linear Acceleration y (m/s^2)'])
+plt.title('Walking Linear Acceleration y - Isabel')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration y (m/s^2)')
+
+plt.subplot(2, 3, 3)
+plt.plot(isabel_walking_sorted['Time (s)'], isabel_walking_sorted['Linear Acceleration z (m/s^2)'])
+plt.title('Walking Linear Acceleration z - Isabel')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration z (m/s^2)')
+
+# DJ jumping plots
+plt.subplot(2, 3, 4)
+plt.plot(isabel_jumping_sorted['Time (s)'], isabel_jumping_sorted['Linear Acceleration x (m/s^2)'])
+plt.title('Jumping Linear Acceleration x - Isabel')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration x (m/s^2)')
+
+plt.subplot(2, 3, 5)
+plt.plot(isabel_jumping_sorted['Time (s)'], isabel_jumping_sorted['Linear Acceleration y (m/s^2)'])
+plt.title('Jumping Linear Acceleration y - Isabel')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration y (m/s^2)')
+
+plt.subplot(2, 3, 6)
+plt.plot(isabel_jumping_sorted['Time (s)'], isabel_jumping_sorted['Linear Acceleration z (m/s^2)'])
+plt.title('Jumping Linear Acceleration z - Isabel')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration z (m/s^2)')
+
+plt.tight_layout()
+plt.show()
+
+
+# lizzy
+plt.figure(figsize=(16, 10))
+
+# DJ walking plots
+plt.subplot(2, 3, 1)
+plt.plot(lizzy_walking_sorted['Time (s)'], lizzy_walking_sorted['Linear Acceleration x (m/s^2)'])
+plt.title('Walking Linear Acceleration x - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration x (m/s^2)')
+
+plt.subplot(2, 3, 2)
+plt.plot(lizzy_walking_sorted['Time (s)'], lizzy_walking_sorted['Linear Acceleration y (m/s^2)'])
+plt.title('Walking Linear Acceleration y - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration y (m/s^2)')
+
+plt.subplot(2, 3, 3)
+plt.plot(lizzy_walking_sorted['Time (s)'], lizzy_walking_sorted['Linear Acceleration z (m/s^2)'])
+plt.title('Walking Linear Acceleration z - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration z (m/s^2)')
+
+# DJ jumping plots
+plt.subplot(2, 3, 4)
+plt.plot(lizzy_jumping_sorted['Time (s)'], lizzy_jumping_sorted['Linear Acceleration x (m/s^2)'])
+plt.title('Jumping Linear Acceleration x - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration x (m/s^2)')
+
+plt.subplot(2, 3, 5)
+plt.plot(lizzy_jumping_sorted['Time (s)'], lizzy_jumping_sorted['Linear Acceleration y (m/s^2)'])
+plt.title('Jumping Linear Acceleration y - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration y (m/s^2)')
+
+plt.subplot(2, 3, 6)
+plt.plot(lizzy_jumping_sorted['Time (s)'], lizzy_jumping_sorted['Linear Acceleration z (m/s^2)'])
+plt.title('Jumping Linear Acceleration z - DJ')
+plt.xlabel('Time (s)')
+plt.ylabel('Linear Acceleration z (m/s^2)')
+
 plt.tight_layout()
 plt.show()
 '''
-
 #WALKING X PLOTS
 #dj data walking x plot
 plt.figure(figsize = (10, 8))
@@ -346,6 +459,6 @@ plt.legend(["Z acceleration"])
 plt.tight_layout()
 #function to show the plot
 plt.show()
-
+'''
 
 
