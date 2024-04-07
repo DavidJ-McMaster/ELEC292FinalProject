@@ -625,8 +625,8 @@ features['range'] = data.iloc[74829, -1].rolling(window=window_size).mean()
  """
 
 
+# Noise Reduction
 
-# Graphs Data like from lab 5
 window_size = [5]
 signalWithNoise = pd.read_csv() # data without filter
 
