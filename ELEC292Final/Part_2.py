@@ -12,6 +12,34 @@ from Part_1 import *
 
 #visualization
 
+'''
+# MIGHT BE A GOOD ALTERNATIVE
+
+# WALKING X PLOTS - Bar Graph
+plt.figure(figsize=(10, 8))
+
+# Iterate over each 5-second segment of the data
+window_size = 5
+for start in range(0, len(dj_walking_df), window_size):
+    end = start + window_size
+    segment = dj_walking_df[start:end]
+
+    # Calculate the mean acceleration for the segment
+    mean_acceleration = segment['Linear Acceleration x (m/s^2)'].mean()
+
+    # Plot the mean acceleration as a bar
+    plt.bar(start, mean_acceleration, width=window_size, align='edge', alpha=0.7)
+
+# Add title and labels
+plt.title('DJ Acceleration in x')
+plt.xlabel("Time (s)")
+plt.ylabel("Mean Linear Acceleration x (m/s^2)")
+
+# Show the plot
+plt.tight_layout()
+plt.show()
+'''
+
 #WALKING X PLOTS
 #dj data walking x plot
 plt.figure(figsize = (10, 8))
