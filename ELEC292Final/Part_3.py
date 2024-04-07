@@ -98,6 +98,9 @@ lizzy_jumping_features = extract_features_from_dataset(lizzy_data_jumping, windo
 isabel_walking_features = extract_features_from_dataset(isabel_data_walking, window_size)
 isabel_jumping_features = extract_features_from_dataset(isabel_data_jumping, window_size)
 
+# THE PROBLEM MIGHT BE HERE. I THINK WE ALREADY HAVE VARIABLES CALLED THIS
+# I TRIED ADDING _feat to all variables to change the name and still didn't work
+
 # turning the extracted features into dataframes
 dj_walking_df = pd.concat(dj_walking_features)
 dj_jumping_df = pd.concat(dj_jumping_features)
