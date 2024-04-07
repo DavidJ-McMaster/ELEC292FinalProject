@@ -13,15 +13,19 @@ import random
 from Part_1 import *
 from Part_2 import *
 
-def noise_filtering(file, window_size):
-    #window = [5]
+def noise_filtering(file):
+    window_size = 5
     noise_filter = pd.read_csv(file)
-    plt.plot(noise_filter, label='Original Data')
     filtered_signal = noise_filter.rolling(window=window_size).mean()
+    plt.plot(noise_filter, label='Original Data')
     plt.plot(filtered_signal, label=f'Moving Average {window_size}')
-
+    plt.xlabel('Time')
+    plt.ylabel('Acceleration')
     plt.legend()
     plt.show()
+
+noise_filtering("all_walking.csv")
+noise_filtering("all_jumping.csv")
 
 
 # feature extraction and more visualization?
