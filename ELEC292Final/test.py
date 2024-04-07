@@ -17,6 +17,13 @@ def segment_into_windows(df, window_size=5):
     
     return windows
 
+def calculate_average_point(windows):
+    average_points = []
+    for window_data in windows:
+        average_point = window_data.mean()  # Calculate mean for each feature
+        average_points.append(average_point)
+    return average_points
+
 # Read data from CSV files into DataFrames
 dj_data_walking = pd.read_csv("dj_WalkingRawData.csv")
 isabel_data_walking = pd.read_csv("Isabel_Walking_RawData2.csv")
