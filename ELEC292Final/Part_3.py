@@ -13,6 +13,17 @@ import random
 from Part_1 import *
 from Part_2 import *
 
+def noise_filtering(file, window_size):
+    #window = [5]
+    noise_filter = pd.read_csv(file)
+    plt.plot(noise_filter, label='Original Data')
+    filtered_signal = noise_filter.rolling(window=window_size).mean()
+    plt.plot(filtered_signal, label=f'Moving Average {window_size}')
+
+    plt.legend()
+    plt.show()
+
+
 # feature extraction and more visualization?
 def extract_features(segment):
     features = pd.DataFrame(
