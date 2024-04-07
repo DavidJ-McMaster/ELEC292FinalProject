@@ -12,15 +12,25 @@ import random
 
 # this file reads the data, segments it and splits it testing/training
 
+def segment_into_windows(df, window_size=5):
+    windows = []
+    start_time = df['Time (s)'].min()  # Start time of the first window
+    end_time = start_time + window_size
 
-def segmentation(signal, window_size=5, overlap=0):
-    segments = []
-    for start in range(0, len(signal), window_size-overlap):
-        end = start + window_size
-        segment = signal[start:end]
-        if len(segment) == window_size:
-            segments.append(segment)
-    return segments
+    while end_time <= df['Time (s)'].max():
+        window_data = df[(df['Time (s)'] >= start_time) & (df['Time (s)'] < end_time)]
+        windows.append(window_data)
+        start_time = end_time
+        end_time += window_size
+
+    return windows
+
+def calculate_average_point(windows):
+    average_points = []
+    for window_data in windows:
+        average_point = window_data.mean()  # Calculate mean for each feature
+        average_points.append(average_point)
+    return average_points
 
 
 dj_walking = "dj_WalkingRawData.csv"
@@ -41,62 +51,61 @@ isabel_data_jumping = pd.read_csv(isabel_jumping)
 lizzy_data_walking = pd.read_csv(lizzy_walking)
 lizzy_data_jumping = pd.read_csv(lizzy_jumping)
 
-dj_walking_segment = segmentation(dj_data_walking)
-dj_jumping_segment = segmentation(dj_data_jumping)
-isabel_walking_segment = segmentation(isabel_data_walking)
-isabel_jumping_segment = segmentation(isabel_data_jumping)
-lizzy_walking_segment = segmentation(lizzy_data_walking)
-lizzy_jumping_segment = segmentation(lizzy_data_jumping)
+dj_walking_segments = segment_into_windows(dj_data_walking)
+isabel_walking_segments = segment_into_windows(isabel_data_walking)
+lizzy_walking_segments = segment_into_windows(lizzy_data_walking)
 
-# shuffle everyone's data
-random.shuffle(dj_walking_segment)
-random.shuffle(dj_jumping_segment)
-random.shuffle(isabel_walking_segment)
-random.shuffle(isabel_jumping_segment)
-random.shuffle(lizzy_walking_segment)
-random.shuffle(lizzy_jumping_segment)
+dj_jumping_segments = segment_into_windows(dj_data_jumping)
+isabel_jumping_segments = segment_into_windows(isabel_data_jumping)
+lizzy_jumping_segments = segment_into_windows(lizzy_data_jumping)
 
-dj_walking_df = pd.concat([pd.DataFrame(segment) for segment in dj_walking_segment], ignore_index=True)
-isabel_walking_df = pd.concat([pd.DataFrame(segment) for segment in isabel_walking_segment], ignore_index=True)
-lizzy_walking_df = pd.concat([pd.DataFrame(segment) for segment in lizzy_walking_segment], ignore_index=True)
+dj_walking_data = pd.concat(dj_walking_segments)
+lizzy_walking_data = pd.concat(lizzy_walking_segments)
+isabel_walking_data = pd.concat(isabel_walking_segments)
 
+dj_jumping_data = pd.concat(dj_jumping_segments)
+lizzy_jumping_data = pd.concat(lizzy_jumping_segments)
+isabel_jumping_data = pd.concat(isabel_jumping_segments)
 
-dj_jumping_df = pd.concat([pd.DataFrame(segment) for segment in dj_jumping_segment], ignore_index=True)
-isabel_jumping_df = pd.concat([pd.DataFrame(segment) for segment in isabel_jumping_segment], ignore_index=True)
-lizzy_jumping_df = pd.concat([pd.DataFrame(segment) for segment in lizzy_jumping_segment], ignore_index=True)
+# Sort the dataframes by 'Time (s)'
+dj_walking_sorted = dj_walking_data.sort_values(by='Time (s)')
+lizzy_walking_sorted = lizzy_walking_data.sort_values(by='Time (s)')
+isabel_walking_sorted = isabel_walking_data.sort_values(by='Time (s)')
 
-#dj_jumping_df = pd.DataFrame(dj_jumping_segment)
-#isabel_jumping_df = pd.DataFrame(isabel_jumping_segment)
-#lizzy_jumping_df = pd.DataFrame(lizzy_jumping_segment)
+dj_jumping_sorted = dj_jumping_data.sort_values(by='Time (s)')
+lizzy_jumping_sorted = lizzy_jumping_data.sort_values(by='Time (s)')
+isabel_jumping_sorted = isabel_jumping_data.sort_values(by='Time (s)')
 
 
-# everyone walking and everyone jumping
-everyone_walking = pd.concat([dj_walking_df, isabel_walking_df, lizzy_walking_df], ignore_index=True)
-everyone_jumping = pd.concat([dj_jumping_df, isabel_jumping_df, lizzy_jumping_df], ignore_index=True)
+combined_walking = dj_walking_segments + isabel_walking_segments + lizzy_walking_segments
+combined_walking_average = calculate_average_point(combined_walking)
 
-everyone_walking.to_csv("all_walking.csv")
-everyone_jumping.to_csv("all_jumping.csv")
+combined_jumping = dj_jumping_segments + isabel_jumping_segments + lizzy_jumping_segments
+combined_jumping_average = calculate_average_point(combined_jumping)
 
-walking_training, walking_testing = train_test_split(everyone_walking, test_size=0.1, shuffle=True, random_state=5)
-jumping_training, jumping_testing = train_test_split(everyone_jumping, test_size=0.1, shuffle=True, random_state=5)
+np.random.shuffle(combined_jumping_average)
+np.random.shuffle(combined_walking_average)
+np.random.shuffle(combined_walking)
+np.random.shuffle(combined_jumping)
 
-# now need to store in HDF5 file
-# need to verify that this is right and works
-# for right now whatever
 
+walking_training, walking_testing = train_test_split(combined_walking_average, test_size=0.1, shuffle=True, random_state=5)
+jumping_training, jumping_testing = train_test_split(combined_jumping_average, test_size=0.1, shuffle=True, random_state=5)
+
+# Store the datasets in HDF5 file
 with h5py.File("data.h5", 'w') as hdf_file:
+    train_group = hdf_file.create_group("train")
+    test_group = hdf_file.create_group("test")
 
-    Member1 = hdf_file.create_group("Member1") # dj
-    Member2 = hdf_file.create_group("Member2") # isabel
-    Member3 = hdf_file.create_group("Member3") # lizzy
+    # Store training data
+    for i, window_data in enumerate(walking_training):
+        train_group.create_dataset(f"window_{i}", data=window_data)
 
-    Member1.create_dataset("walking", data=dj_walking)
-    Member1.create_dataset("jumping", data=dj_jumping)
+    # Store testing data
+    for i, window_data in enumerate(walking_testing):
+        test_group.create_dataset(f"window_{i}", data=window_data)
 
-    Member2.create_dataset("walking", data=isabel_walking)
-    Member2.create_dataset("jumping", data=isabel_jumping)
 
-    Member3.create_dataset("walking", data=lizzy_walking)
-    Member3.create_dataset("jumping", data=lizzy_jumping)
+
 
 
