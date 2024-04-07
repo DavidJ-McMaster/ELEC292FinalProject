@@ -192,3 +192,13 @@ fig, ax = plt.subplots(ncols=3, nrows=3, figsize=(25, 15))
 data.hist(ax=ax.flatten()[0:9])
 fig.tight_layout()
 plt.show()
+
+# need to call this. Don't fully understand what going to call it
+# is it what has just been extracted?
+
+
+def normalize(data):
+    sc = preprocessing.StandardScaler()
+    data = sc.fit(data)
+    return data
+
