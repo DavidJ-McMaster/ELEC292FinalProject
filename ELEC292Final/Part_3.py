@@ -13,8 +13,24 @@ import random
 from Part_1 import *
 from Part_2 import *
 
-def noise_filtering(file):
+def noise_filtering(everyone_walking, everyone_jumping):
     window_size = 5
+    plt.figure(figsize=(10,8))
+
+    walking_filtered = everyone_walking['Linear Acceleration x (m/s^2)'].rolling(window=window_size).mean()
+    plt.plot(walking_filtered, label='Walking - Filtered', linestyle='-', color='b')
+
+    jumping_filtered = everyone_jumping['Linear Acceleration x (m/s^2)'].rolling(window=window_size).mean()
+    plt.plot(jumping_filtered, label='Jumping - Filtered', linestyle='-', color='r')
+
+    plt.legend()
+    plt.title('Noise Filtered Data')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Filtered Linear Acceleration x (m/s^2)')
+    plt.tight_layout()
+    plt.show()
+
+    '''
     noise_filter = pd.read_csv(file)
     filtered_signal = noise_filter.rolling(window=window_size).mean()
     plt.plot(noise_filter, label='Original Data')
@@ -23,9 +39,12 @@ def noise_filtering(file):
     plt.ylabel('Acceleration')
     plt.legend()
     plt.show()
+    '''
 
-noise_filtering("all_walking.csv")
-noise_filtering("all_jumping.csv")
+noise_filtering(everyone_walking, everyone_jumping)
+
+#noise_filtering("all_walking.csv")
+#noise_filtering("all_jumping.csv")
 
 
 # feature extraction and more visualization?
